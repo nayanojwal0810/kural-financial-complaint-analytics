@@ -1,0 +1,143 @@
+product,topic_id,complaint_count,percentage
+Checking or savings account,topic_13,4895,70.79
+Checking or savings account,topic_01,670,9.69
+Checking or savings account,topic_14,657,9.5
+Checking or savings account,topic_04,190,2.75
+Checking or savings account,topic_16,183,2.65
+Checking or savings account,topic_07,151,2.18
+Checking or savings account,topic_05,41,0.59
+Checking or savings account,topic_11,38,0.55
+Checking or savings account,topic_06,33,0.48
+Checking or savings account,topic_08,16,0.23
+Checking or savings account,topic_09,13,0.19
+Checking or savings account,topic_02,12,0.17
+Checking or savings account,topic_15,7,0.1
+Checking or savings account,topic_10,6,0.09
+Checking or savings account,topic_12,2,0.03
+Checking or savings account,topic_03,1,0.01
+Credit card or prepaid card,topic_04,5356,46.29
+Credit card or prepaid card,topic_13,1577,13.63
+Credit card or prepaid card,topic_01,1535,13.27
+Credit card or prepaid card,topic_09,1142,9.87
+Credit card or prepaid card,topic_14,331,2.86
+Credit card or prepaid card,topic_07,310,2.68
+Credit card or prepaid card,topic_05,308,2.66
+Credit card or prepaid card,topic_11,249,2.15
+Credit card or prepaid card,topic_16,229,1.98
+Credit card or prepaid card,topic_10,141,1.22
+Credit card or prepaid card,topic_02,123,1.06
+Credit card or prepaid card,topic_06,99,0.86
+Credit card or prepaid card,topic_08,88,0.76
+Credit card or prepaid card,topic_15,62,0.54
+Credit card or prepaid card,topic_03,12,0.1
+Credit card or prepaid card,topic_12,9,0.08
+"Credit reporting, credit repair services, or other personal consumer reports",topic_11,10503,18.9
+"Credit reporting, credit repair services, or other personal consumer reports",topic_16,8156,14.68
+"Credit reporting, credit repair services, or other personal consumer reports",topic_02,7789,14.02
+"Credit reporting, credit repair services, or other personal consumer reports",topic_10,5309,9.56
+"Credit reporting, credit repair services, or other personal consumer reports",topic_06,4262,7.67
+"Credit reporting, credit repair services, or other personal consumer reports",topic_09,3822,6.88
+"Credit reporting, credit repair services, or other personal consumer reports",topic_05,2786,5.01
+"Credit reporting, credit repair services, or other personal consumer reports",topic_08,2643,4.76
+"Credit reporting, credit repair services, or other personal consumer reports",topic_15,1935,3.48
+"Credit reporting, credit repair services, or other personal consumer reports",topic_04,1839,3.31
+"Credit reporting, credit repair services, or other personal consumer reports",topic_13,1719,3.09
+"Credit reporting, credit repair services, or other personal consumer reports",topic_07,1302,2.34
+"Credit reporting, credit repair services, or other personal consumer reports",topic_12,1123,2.02
+"Credit reporting, credit repair services, or other personal consumer reports",topic_01,1079,1.94
+"Credit reporting, credit repair services, or other personal consumer reports",topic_03,973,1.75
+"Credit reporting, credit repair services, or other personal consumer reports",topic_14,318,0.57
+Debt collection,topic_08,9931,44.56
+Debt collection,topic_07,3028,13.59
+Debt collection,topic_11,1665,7.47
+Debt collection,topic_02,1424,6.39
+Debt collection,topic_01,1213,5.44
+Debt collection,topic_05,1168,5.24
+Debt collection,topic_06,1008,4.52
+Debt collection,topic_13,865,3.88
+Debt collection,topic_16,648,2.91
+Debt collection,topic_04,545,2.45
+Debt collection,topic_09,242,1.09
+Debt collection,topic_12,221,0.99
+Debt collection,topic_14,111,0.5
+Debt collection,topic_15,102,0.46
+Debt collection,topic_10,80,0.36
+Debt collection,topic_03,36,0.16
+"Money transfer, virtual currency, or money service",topic_13,1359,53.02
+"Money transfer, virtual currency, or money service",topic_01,657,25.63
+"Money transfer, virtual currency, or money service",topic_14,144,5.62
+"Money transfer, virtual currency, or money service",topic_04,124,4.84
+"Money transfer, virtual currency, or money service",topic_07,112,4.37
+"Money transfer, virtual currency, or money service",topic_05,56,2.18
+"Money transfer, virtual currency, or money service",topic_16,39,1.52
+"Money transfer, virtual currency, or money service",topic_11,14,0.55
+"Money transfer, virtual currency, or money service",topic_08,13,0.51
+"Money transfer, virtual currency, or money service",topic_10,13,0.51
+"Money transfer, virtual currency, or money service",topic_06,12,0.47
+"Money transfer, virtual currency, or money service",topic_09,9,0.35
+"Money transfer, virtual currency, or money service",topic_02,5,0.2
+"Money transfer, virtual currency, or money service",topic_15,5,0.2
+"Money transfer, virtual currency, or money service",topic_03,1,0.04
+Mortgage,topic_05,6673,70.62
+Mortgage,topic_01,875,9.26
+Mortgage,topic_14,606,6.41
+Mortgage,topic_09,453,4.79
+Mortgage,topic_13,378,4.0
+Mortgage,topic_11,159,1.68
+Mortgage,topic_07,139,1.47
+Mortgage,topic_08,60,0.63
+Mortgage,topic_10,31,0.33
+Mortgage,topic_02,29,0.31
+Mortgage,topic_04,13,0.14
+Mortgage,topic_15,11,0.12
+Mortgage,topic_16,10,0.11
+Mortgage,topic_12,7,0.07
+Mortgage,topic_03,3,0.03
+Mortgage,topic_06,2,0.02
+"Payday loan, title loan, or personal loan",topic_05,1125,50.74
+"Payday loan, title loan, or personal loan",topic_13,267,12.04
+"Payday loan, title loan, or personal loan",topic_01,213,9.61
+"Payday loan, title loan, or personal loan",topic_07,187,8.43
+"Payday loan, title loan, or personal loan",topic_09,136,6.13
+"Payday loan, title loan, or personal loan",topic_08,71,3.2
+"Payday loan, title loan, or personal loan",topic_02,43,1.94
+"Payday loan, title loan, or personal loan",topic_04,38,1.71
+"Payday loan, title loan, or personal loan",topic_11,35,1.58
+"Payday loan, title loan, or personal loan",topic_10,31,1.4
+"Payday loan, title loan, or personal loan",topic_14,25,1.13
+"Payday loan, title loan, or personal loan",topic_06,17,0.77
+"Payday loan, title loan, or personal loan",topic_15,14,0.63
+"Payday loan, title loan, or personal loan",topic_16,8,0.36
+"Payday loan, title loan, or personal loan",topic_03,4,0.18
+"Payday loan, title loan, or personal loan",topic_12,3,0.14
+Student loan,topic_05,3193,81.02
+Student loan,topic_09,156,3.96
+Student loan,topic_01,155,3.93
+Student loan,topic_07,142,3.6
+Student loan,topic_08,61,1.55
+Student loan,topic_13,57,1.45
+Student loan,topic_14,50,1.27
+Student loan,topic_11,39,0.99
+Student loan,topic_02,30,0.76
+Student loan,topic_16,29,0.74
+Student loan,topic_04,7,0.18
+Student loan,topic_10,7,0.18
+Student loan,topic_12,6,0.15
+Student loan,topic_15,5,0.13
+Student loan,topic_06,4,0.1
+Vehicle loan or lease,topic_05,1220,44.97
+Vehicle loan or lease,topic_01,427,15.74
+Vehicle loan or lease,topic_09,407,15.0
+Vehicle loan or lease,topic_13,150,5.53
+Vehicle loan or lease,topic_07,113,4.17
+Vehicle loan or lease,topic_02,105,3.87
+Vehicle loan or lease,topic_14,78,2.88
+Vehicle loan or lease,topic_11,70,2.58
+Vehicle loan or lease,topic_08,50,1.84
+Vehicle loan or lease,topic_10,29,1.07
+Vehicle loan or lease,topic_06,19,0.7
+Vehicle loan or lease,topic_15,16,0.59
+Vehicle loan or lease,topic_03,8,0.29
+Vehicle loan or lease,topic_12,8,0.29
+Vehicle loan or lease,topic_04,7,0.26
+Vehicle loan or lease,topic_16,6,0.22

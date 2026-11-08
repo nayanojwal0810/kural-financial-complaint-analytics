@@ -26,7 +26,7 @@ The dataset used in this project is sourced from the historical CFPB complaints 
 2. **Data Preparation & Cleaning:** Automated parsing of date fields, standardizing whitespace across categorical columns, lowercasing narrative text while protecting redaction markers, identifying duplicate narratives, and deriving initial temporal and length metrics (`src/prepare_data.py`).
 3. **Exploratory Data Analysis:** Systematic inspection of complaint volumes, common issues, monthly timelines, institutional distributions, response categories, and narrative word counts (`notebooks/exploratory_analysis.ipynb`).
 4. **Statistical Analysis & Hypothesis Testing:** Evaluating differences in response timeliness, recorded relief categories, and narrative lengths across product categories (`notebooks/statistical_analysis.ipynb`).
-5. **AI / NLP Modeling:** *(Planned)* Topic extraction, clustering, and text classification on cleaned consumer complaint narratives.
+5. **AI / NLP Modeling:** Complaint theme discovery using TF-IDF vectorization and Non-negative Matrix Factorization (NMF) into 16 candidate topics (`src/text_analysis.py`, `notebooks/text_analysis.ipynb`).
 6. **SQL Database Modeling:** *(Planned)* Structured relational tables and analytical queries in `sql/`.
 7. **Interactive Dashboard:** *(Planned)* Operational monitoring dashboard in `dashboard/`.
 
@@ -36,6 +36,9 @@ The dataset used in this project is sourced from the historical CFPB complaints 
 - **Data Preparation Pipeline:** Implemented `src/prepare_data.py` to clean and standardize 117,214 records, engineer text and temporal features, and output `data/processed/complaints_clean.csv.gz`.
 - **Exploratory Data Analysis Notebook:** Created and executed `notebooks/exploratory_analysis.ipynb` covering dataset overview, distribution by product/company/issue, response patterns, and narrative word counts.
 - **Statistical Analysis Notebook:** Created and executed `notebooks/statistical_analysis.ipynb` evaluating response timeliness, recorded relief proportions, and narrative word counts across product categories.
+- **Complaint Theme Discovery Pipeline:** Implemented `src/text_analysis.py` with text preprocessing (removing CFPB redaction tokens, normalizing whitespace while preserving financial terms), TF-IDF vectorization, NMF decomposition into 16 candidate topics, and dataset export to `data/processed/complaints_with_topics.csv.gz`.
+- **Text Analysis Notebook:** Created and executed `notebooks/text_analysis.ipynb` examining candidate topic keywords, topic distributions, product heatmaps, and recorded relief patterns.
+- **Project Tests:** Added automated unit tests in `tests/` covering data preparation, statistical calculations, and NLP text processing and topic modeling (`pytest`).
 - **Analytical Tables:** Exported aggregated CSV tables to `outputs/tables/`:
   - `complaints_by_product.csv`
   - `monthly_complaints.csv`
@@ -44,6 +47,10 @@ The dataset used in this project is sourced from the historical CFPB complaints 
   - `product_timeliness_statistics.csv`
   - `product_recorded_relief.csv`
   - `narrative_length_by_product.csv`
+  - `topic_keywords.csv`
+  - `topic_distribution.csv`
+  - `topic_by_product.csv`
+  - `topic_recorded_relief.csv`
 - **Visualizations:** Saved analytical charts to `outputs/figures/`:
   - `complaints_by_product.png`
   - `monthly_complaint_volume.png`
@@ -54,6 +61,8 @@ The dataset used in this project is sourced from the historical CFPB complaints 
   - `product_timeliness_intervals.png`
   - `recorded_relief_by_product.png`
   - `narrative_length_by_product.png`
+  - `topic_distribution.png`
+  - `topic_product_heatmap.png`
 
 ## Setup and Execution
 
@@ -89,4 +98,21 @@ Execute the statistical analysis notebook:
 
 ```bash
 python -m nbconvert --to notebook --execute --inplace notebooks/statistical_analysis.ipynb
+```
+
+### 5. Complaint Theme Discovery (NLP)
+
+Execute the topic analysis pipeline and notebook:
+
+```bash
+python src/text_analysis.py
+python -m nbconvert --to notebook --execute --inplace notebooks/text_analysis.ipynb
+```
+
+### 6. Project Tests
+
+Run test suite:
+
+```bash
+pytest
 ```
