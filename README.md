@@ -6,13 +6,13 @@ Kural (from the Tamil word for "voice") is an analytics project designed to list
 
 ## Business Problem
 
-Financial institutions process thousands of complaints regarding credit reporting, debt collection, mortgage servicing, and banking accounts. Manually reviewing each customer narrative is slow, costly, and difficult to scale. Without automated analytics, organizations risk missing operational bottlenecks, encountering regulatory compliance penalties, and failing to detect systemic service failures.
+Financial institutions receive large volumes of consumer complaints across products such as credit reporting, debt collection, mortgages, and consumer banking. Manually reading through thousands of complaint narratives is time-consuming and difficult to do consistently. Without structured complaint analytics, organizations struggle to identify recurring issues, track response timeliness, and understand patterns in consumer grievances.
 
 Kural aims to study:
-- Which financial products and operational issues generate the highest complaint volumes.
-- How effectively and timely financial institutions respond to consumer grievances.
-- The linguistic characteristics and length variations of consumer narratives across product categories.
-- How recurring dispute templates and duplicate complaints impact complaint operations.
+- Which financial products and issues appear most frequently in consumer complaints.
+- How recorded company responses and response timeliness vary across product categories.
+- The distribution of narrative lengths and characteristics across different complaint types.
+- The prevalence of duplicate narratives in historical complaint data.
 
 ## Dataset Source
 

@@ -78,10 +78,11 @@ def prepare_complaint_data(raw_path: str, output_path: str) -> pd.DataFrame:
             df[col] = df[col].astype("string").str.strip().str.replace(r"\s+", " ", regex=True)
 
     # Preserve original narrative and create a separate cleaned narrative column
+    # Handle missing values so null never becomes literal string "nan"
     # Lowercase text and normalize whitespace while protecting redaction markers (e.g. XXXX -> xxxx)
+    raw_narrative = df["consumer_complaint_narrative"].fillna("").astype(str)
     df["cleaned_narrative"] = (
-        df["consumer_complaint_narrative"]
-        .astype(str)
+        raw_narrative
         .str.lower()
         .str.strip()
         .str.replace(r"\s+", " ", regex=True)
@@ -107,7 +108,6 @@ def prepare_complaint_data(raw_path: str, output_path: str) -> pd.DataFrame:
     df["complaint_month"] = df["date_received"].dt.month
     df["narrative_word_count"] = df["cleaned_narrative"].apply(lambda s: len(s.split()) if s else 0)
     df["narrative_char_count"] = df["cleaned_narrative"].str.len()
-    df["narrative_character_count"] = df["narrative_char_count"]
 
     # Record exclusion check: keep all records unless there is a clear documented reason
     # Check for invalid rows (e.g., missing complaint_id or unparseable date_received)
@@ -116,10 +116,10 @@ def prepare_complaint_data(raw_path: str, output_path: str) -> pd.DataFrame:
     if excluded_count > 0:
         print(f"\nExcluding {excluded_count:,} records due to missing ID or invalid date.")
         df = df[~invalid_mask].copy()
-    else:
-        print("\nRecord exclusion check: 0 records excluded (all 117,214 records are valid).")
 
     prepared_count = len(df)
+    if excluded_count == 0:
+        print(f"\nRecord exclusion check: 0 records excluded (all {prepared_count:,} records are valid).")
 
     # Ensure output directory exists and save prepared dataset
     output_file.parent.mkdir(parents=True, exist_ok=True)
