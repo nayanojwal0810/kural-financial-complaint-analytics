@@ -1,0 +1,10 @@
+product,total_complaints,mean_words,median_words,q25,q75,iqr
+"Credit reporting, credit repair services, or other personal consumer reports",55558,153.2,95.0,51.0,171.0,120.0
+Debt collection,22287,169.3,115.0,59.0,212.0,153.0
+Credit card or prepaid card,11571,241.8,174.0,99.0,295.0,196.0
+Mortgage,9449,322.7,223.0,130.0,381.0,251.0
+Checking or savings account,6915,255.4,179.0,102.0,314.0,212.0
+Student loan,3941,238.0,175.0,100.0,295.0,195.0
+Vehicle loan or lease,2713,241.7,176.0,100.0,301.0,201.0
+"Money transfer, virtual currency, or money service",2563,242.0,170.0,96.0,293.0,197.0
+"Payday loan, title loan, or personal loan",2217,205.3,143.0,79.0,244.0,165.0

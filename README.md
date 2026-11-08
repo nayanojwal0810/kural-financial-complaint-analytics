@@ -25,7 +25,7 @@ The dataset used in this project is sourced from the historical CFPB complaints 
 1. **Data Ingestion & Storage:** Raw compressed complaint records stored in `data/raw/` (ignored by Git for data privacy and repository hygiene).
 2. **Data Preparation & Cleaning:** Automated parsing of date fields, standardizing whitespace across categorical columns, lowercasing narrative text while protecting redaction markers, identifying duplicate narratives, and deriving initial temporal and length metrics (`src/prepare_data.py`).
 3. **Exploratory Data Analysis:** Systematic inspection of complaint volumes, common issues, monthly timelines, institutional distributions, response categories, and narrative word counts (`notebooks/exploratory_analysis.ipynb`).
-4. **Statistical Analysis & Hypothesis Testing:** *(Planned)* Evaluating significant differences in response times and resolution patterns across institutions and product lines.
+4. **Statistical Analysis & Hypothesis Testing:** Evaluating differences in response timeliness, recorded relief categories, and narrative lengths across product categories (`notebooks/statistical_analysis.ipynb`).
 5. **AI / NLP Modeling:** *(Planned)* Topic extraction, clustering, and text classification on cleaned consumer complaint narratives.
 6. **SQL Database Modeling:** *(Planned)* Structured relational tables and analytical queries in `sql/`.
 7. **Interactive Dashboard:** *(Planned)* Operational monitoring dashboard in `dashboard/`.
@@ -35,18 +35,25 @@ The dataset used in this project is sourced from the historical CFPB complaints 
 - **Project Environment & Structure:** Defined repository layout, `.gitignore` rules, and package dependencies in `requirements.txt`.
 - **Data Preparation Pipeline:** Implemented `src/prepare_data.py` to clean and standardize 117,214 records, engineer text and temporal features, and output `data/processed/complaints_clean.csv.gz`.
 - **Exploratory Data Analysis Notebook:** Created and executed `notebooks/exploratory_analysis.ipynb` covering dataset overview, distribution by product/company/issue, response patterns, and narrative word counts.
+- **Statistical Analysis Notebook:** Created and executed `notebooks/statistical_analysis.ipynb` evaluating response timeliness, recorded relief proportions, and narrative word counts across product categories.
 - **Analytical Tables:** Exported aggregated CSV tables to `outputs/tables/`:
   - `complaints_by_product.csv`
   - `monthly_complaints.csv`
   - `response_summary.csv`
   - `product_timely_response.csv`
-- **Visualizations:** Saved 6 charts to `outputs/figures/`:
+  - `product_timeliness_statistics.csv`
+  - `product_recorded_relief.csv`
+  - `narrative_length_by_product.csv`
+- **Visualizations:** Saved analytical charts to `outputs/figures/`:
   - `complaints_by_product.png`
   - `monthly_complaint_volume.png`
   - `most_frequent_issues.png`
   - `company_responses.png`
   - `timely_response_by_product.png`
   - `narrative_word_count_distribution.png`
+  - `product_timeliness_intervals.png`
+  - `recorded_relief_by_product.png`
+  - `narrative_length_by_product.png`
 
 ## Setup and Execution
 
@@ -70,10 +77,16 @@ This creates the cleaned dataset at `data/processed/complaints_clean.csv.gz`.
 
 ### 3. Exploratory Analysis
 
-Open the Jupyter notebook or execute it via command line:
+Execute the exploratory data analysis notebook:
 
 ```bash
-jupyter nbconvert --to notebook --execute --inplace notebooks/exploratory_analysis.ipynb
+python -m nbconvert --to notebook --execute --inplace notebooks/exploratory_analysis.ipynb
 ```
 
-The notebook generates updated figures in `outputs/figures/` and analytical tables in `outputs/tables/`.
+### 4. Statistical Analysis
+
+Execute the statistical analysis notebook:
+
+```bash
+python -m nbconvert --to notebook --execute --inplace notebooks/statistical_analysis.ipynb
+```

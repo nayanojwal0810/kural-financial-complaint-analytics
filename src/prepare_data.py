@@ -103,11 +103,17 @@ def prepare_complaint_data(raw_path: str, output_path: str) -> pd.DataFrame:
     # Identify repeated complaint IDs
     repeated_complaint_ids = int(df["complaint_id"].duplicated(keep="first").sum())
 
-    # Feature engineering: temporal and text metrics
+    # Feature engineering: temporal, text, and response metrics
     df["complaint_year"] = df["date_received"].dt.year
     df["complaint_month"] = df["date_received"].dt.month
     df["narrative_word_count"] = df["cleaned_narrative"].apply(lambda s: len(s.split()) if s else 0)
     df["narrative_char_count"] = df["cleaned_narrative"].str.len()
+
+    # Recorded relief indicator based on reported company response categories
+    # Represents recorded administrative response status, not verified customer satisfaction
+    df["has_recorded_relief"] = df["company_response_to_consumer"].isin(
+        ["Closed with monetary relief", "Closed with non-monetary relief"]
+    )
 
     # Record exclusion check: keep all records unless there is a clear documented reason
     # Check for invalid rows (e.g., missing complaint_id or unparseable date_received)
@@ -136,6 +142,7 @@ def prepare_complaint_data(raw_path: str, output_path: str) -> pd.DataFrame:
     print(f"Excluded records:         {excluded_count:,}")
     print(f"Missing narratives:       {missing_narrative_count:,}")
     print(f"Duplicate narratives:     {duplicate_narrative_count:,}")
+    print(f"Recorded relief count:    {int(df['has_recorded_relief'].sum()):,}")
     print(f"Repeated complaint IDs:   {repeated_complaint_ids:,}")
     print(f"Output location:          {output_file.resolve()}")
     print("=" * 50 + "\n")
