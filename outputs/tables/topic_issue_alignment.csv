@@ -1,0 +1,52 @@
+topic_id,issue,complaint_count,percentage_within_topic
+topic_01,Managing an account,554,7.6
+topic_01,Problem with a purchase shown on your statement,547,7.5
+topic_01,Incorrect information on your report,430,5.9
+topic_02,Incorrect information on your report,6784,57.87
+topic_02,Problem with a credit reporting company's investigation into an existing problem,1700,14.5
+topic_02,Attempts to collect debt not owed,1016,8.67
+topic_03,Problem with a credit reporting company's investigation into an existing problem,1825,85.24
+topic_03,Incorrect information on your report,252,11.77
+topic_03,Attempts to collect debt not owed,21,0.98
+topic_04,Managing an account,2393,25.89
+topic_04,Incorrect information on your report,1089,11.78
+topic_04,Closing an account,661,7.15
+topic_05,Dealing with your lender or servicer,2164,28.98
+topic_05,Incorrect information on your report,1358,18.18
+topic_05,Struggling to repay your loan,852,11.41
+topic_06,Incorrect information on your report,3566,66.42
+topic_06,Attempts to collect debt not owed,908,16.91
+topic_06,Problem with a credit reporting company's investigation into an existing problem,380,7.08
+topic_07,Communication tactics,1584,27.42
+topic_07,Incorrect information on your report,607,10.51
+topic_07,Attempts to collect debt not owed,593,10.27
+topic_08,Attempts to collect debt not owed,4384,35.1
+topic_08,Written notification about debt,2309,18.49
+topic_08,Incorrect information on your report,1494,11.96
+topic_09,Incorrect information on your report,2469,34.73
+topic_09,Problem with a credit reporting company's investigation into an existing problem,1972,27.74
+topic_09,Problem when making payments,589,8.28
+topic_10,Problem with a purchase shown on your statement,1537,16.45
+topic_10,Incorrect information on your report,1298,13.89
+topic_10,"Other features, terms, or problems",869,9.3
+topic_11,Trouble during payment process,3612,41.26
+topic_11,Struggling to pay mortgage,1864,21.29
+topic_11,Applying for a mortgage or refinancing an existing mortgage,731,8.35
+topic_12,Incorrect information on your report,1761,68.1
+topic_12,Problem with a credit reporting company's investigation into an existing problem,430,16.63
+topic_12,Attempts to collect debt not owed,202,7.81
+topic_13,Incorrect information on your report,790,75.67
+topic_13,Attempts to collect debt not owed,123,11.78
+topic_13,Problem with a credit reporting company's investigation into an existing problem,42,4.02
+topic_14,Managing an account,394,17.11
+topic_14,Trouble during payment process,258,11.2
+topic_14,Incorrect information on your report,206,8.94
+topic_15,Improper use of your report,3704,57.84
+topic_15,Incorrect information on your report,1646,25.7
+topic_15,Problem with a credit reporting company's investigation into an existing problem,549,8.57
+topic_16,Incorrect information on your report,7994,44.2
+topic_16,Problem with a credit reporting company's investigation into an existing problem,5729,31.67
+topic_16,Attempts to collect debt not owed,1330,7.35
+unassigned,Incorrect information on your report,30,37.97
+unassigned,Problem with a credit reporting company's investigation into an existing problem,16,20.25
+unassigned,Improper use of your report,6,7.59

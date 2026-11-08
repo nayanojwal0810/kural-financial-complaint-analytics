@@ -18,7 +18,8 @@ def prepare_nlp_text(text: str) -> str:
     """Prepares consumer complaint text specifically for NLP topic modeling.
 
     Handles missing text safely, normalizes whitespace, removes CFPB redaction
-    placeholders (e.g., 'xxxx', 'xx/xx/xxxx', isolated 'x' tokens), and strips
+    placeholders (e.g., 'xxxx', 'xx/xx/xxxx', isolated 'x' tokens), removes
+    redacted-amount placeholders and standalone zero-only tokens, and strips
     punctuation while preserving meaningful financial words and numbers.
 
     Parameters
@@ -36,7 +37,15 @@ def prepare_nlp_text(text: str) -> str:
 
     cleaned = text.lower()
 
-    # Remove date-like or slash-separated redaction tokens (e.g. xx/xx/xxxx)
+    # 1. Remove recognized CFPB amount redactions and amount placeholders
+    cleaned = re.sub(r"\{\s*\$?\s*0*(?:\.0*)?\s*\}", " ", cleaned)
+    cleaned = re.sub(r"\{\s*\$?\s*x+[\s\.\-x]*\}", " ", cleaned)
+    cleaned = re.sub(r"\[\s*(?:amount|amount redacted|\$0\.00)\s*\]", " ", cleaned)
+
+    # Strip decimal cents .00 from currency/numbers (e.g., 500.00 -> 500)
+    cleaned = re.sub(r"(?<=\d)\.00(?!\d)", "", cleaned)
+
+    # 2. Remove date-like or slash-separated redaction tokens (e.g. xx/xx/xxxx)
     cleaned = re.sub(r"\b[x]+(?:/[x]+)+\b", " ", cleaned)
 
     # Remove hyphen-separated redaction tokens (e.g. xxxx-xxxx)
@@ -46,12 +55,15 @@ def prepare_nlp_text(text: str) -> str:
     cleaned = re.sub(r"\b[x]{2,}\b", " ", cleaned)
     cleaned = re.sub(r"\b[x]\b", " ", cleaned)
 
-    # Replace punctuation and special characters with space, preserving alphanumeric characters
+    # 3. Replace punctuation and special characters with space, preserving alphanumeric
     cleaned = re.sub(r"[^a-z0-9\s]", " ", cleaned)
 
     # Remove residual standalone x tokens exposed after punctuation stripping
     cleaned = re.sub(r"\b[x]{2,}\b", " ", cleaned)
     cleaned = re.sub(r"\b[x]\b", " ", cleaned)
+
+    # 4. Remove standalone zero-only tokens (e.g. 0, 00, 000, 0000)
+    cleaned = re.sub(r"\b0+\b", " ", cleaned)
 
     # Normalize whitespace
     return re.sub(r"\s+", " ", cleaned).strip()
@@ -92,7 +104,6 @@ def fit_topic_model(
     """
     valid_texts = distinct_texts[distinct_texts.str.len() > 0]
 
-    # Dynamically adapt thresholds for small testing samples
     effective_min_df = min(min_df, max(1, len(valid_texts) // 4)) if len(valid_texts) <= min_df else min_df
     effective_max_df = 1.0 if len(valid_texts) < 20 else max_df
 
@@ -156,7 +167,9 @@ def assign_topics(
     """Prepares NLP text and assigns dominant NMF topics to all complaint records.
 
     Applies the model to distinct prepared texts and maps assignments back to ensure
-    identical prepared narratives receive the same topic assignment.
+    identical prepared narratives receive the same topic assignment. Empty texts,
+    texts producing no usable TF-IDF vocabulary, and zero-strength NMF results receive
+    'unassigned' with weight 0.0.
 
     Parameters
     ----------
@@ -176,35 +189,50 @@ def assign_topics(
     """
     df_result = df.copy()
 
-    # Preprocess text for NLP
     nlp_text = df_result[text_col].apply(prepare_nlp_text)
 
-    # Process distinct texts to guarantee identical assignments and efficient transformation
     distinct_series = pd.Series(nlp_text.unique())
     valid_distinct = distinct_series[distinct_series.str.len() > 0]
 
-    # Transform valid distinct texts
-    tfidf_distinct = tfidf.transform(valid_distinct)
-    weights_distinct = nmf.transform(tfidf_distinct)
-
-    distinct_topic_indices = np.argmax(weights_distinct, axis=1)
-    distinct_max_weights = np.max(weights_distinct, axis=1)
-
-    # Map text to topic ID and weight
     topic_map = {}
     weight_map = {}
-    for text_val, t_idx, w_val in zip(valid_distinct, distinct_topic_indices, distinct_max_weights):
-        topic_map[text_val] = f"topic_{t_idx + 1:02d}"
-        weight_map[text_val] = float(round(w_val, 6))
 
-    # Empty text fallback maps to topic_01 with 0.0 weight
-    topic_map[""] = "topic_01"
+    if len(valid_distinct) > 0:
+        tfidf_distinct = tfidf.transform(valid_distinct)
+        weights_distinct = nmf.transform(tfidf_distinct)
+
+        distinct_topic_indices = np.argmax(weights_distinct, axis=1)
+        distinct_max_weights = np.max(weights_distinct, axis=1)
+
+        for text_val, t_idx, w_val in zip(valid_distinct, distinct_topic_indices, distinct_max_weights):
+            if w_val <= 0.0 or np.isclose(w_val, 0.0):
+                topic_map[text_val] = "unassigned"
+                weight_map[text_val] = 0.0
+            else:
+                topic_map[text_val] = f"topic_{t_idx + 1:02d}"
+                weight_map[text_val] = float(round(w_val, 6))
+
+    # Empty text fallback maps to unassigned
+    topic_map[""] = "unassigned"
     weight_map[""] = 0.0
 
-    df_result["topic_id"] = nlp_text.map(topic_map)
-    df_result["topic_weight"] = nlp_text.map(weight_map)
+    df_result["topic_id"] = nlp_text.map(topic_map).fillna("unassigned")
+    df_result["topic_weight"] = nlp_text.map(weight_map).fillna(0.0)
 
     return df_result
+
+
+def _sort_topic_ids(topic_ids: List[str]) -> List[str]:
+    """Sort helper ensuring topic_01..topic_16 appear in order followed by unassigned."""
+    def sort_key(tid: str):
+        if tid.startswith("topic_"):
+            try:
+                return (0, int(tid.split("_")[1]))
+            except ValueError:
+                return (0, 999)
+        return (1, tid)
+
+    return sorted(topic_ids, key=sort_key)
 
 
 def generate_topic_summary_tables(
@@ -213,7 +241,7 @@ def generate_topic_summary_tables(
     nmf: NMF,
     tables_dir: Path,
 ) -> None:
-    """Generates and exports the four required aggregated topic summary tables.
+    """Generates and exports the five required aggregated topic summary tables.
 
     Parameters
     ----------
@@ -229,7 +257,7 @@ def generate_topic_summary_tables(
     tables_dir.mkdir(parents=True, exist_ok=True)
     total_assigned = len(df_with_topics)
 
-    # A. Topic Keywords
+    # A. Topic Keywords (for the 16 candidate NMF topics)
     keywords_dict = extract_topic_keywords(tfidf, nmf, n_words=12)
     topic_counts = df_with_topics["topic_id"].value_counts()
 
@@ -243,9 +271,13 @@ def generate_topic_summary_tables(
     df_keywords = pd.DataFrame(keywords_rows).sort_values("topic_id").reset_index(drop=True)
     df_keywords.to_csv(tables_dir / "topic_keywords.csv", index=False)
 
-    # B. Topic Distribution
-    df_dist = df_with_topics["topic_id"].value_counts().sort_index().reset_index()
-    df_dist.columns = ["topic_id", "complaint_count"]
+    # B. Topic Distribution (accounts for every complaint, including unassigned)
+    dist_counts = df_with_topics["topic_id"].value_counts()
+    sorted_topics = _sort_topic_ids(list(dist_counts.index))
+    df_dist = pd.DataFrame({
+        "topic_id": sorted_topics,
+        "complaint_count": [int(dist_counts[t]) for t in sorted_topics],
+    })
     df_dist["percentage"] = (df_dist["complaint_count"] / total_assigned * 100).round(2)
     df_dist.to_csv(tables_dir / "topic_distribution.csv", index=False)
 
@@ -266,8 +298,28 @@ def generate_topic_summary_tables(
     df_relief["recorded_relief_percentage"] = (
         df_relief["complaints_with_recorded_relief"] / df_relief["total_complaints"] * 100
     ).round(2)
-    df_relief = df_relief.sort_values("topic_id").reset_index(drop=True)
+    df_relief["sort_rank"] = df_relief["topic_id"].apply(
+        lambda x: (0, int(x.split("_")[1])) if x.startswith("topic_") else (1, x)
+    )
+    df_relief = df_relief.sort_values("sort_rank").drop(columns=["sort_rank"]).reset_index(drop=True)
     df_relief.to_csv(tables_dir / "topic_recorded_relief.csv", index=False)
+
+    # E. Topic Issue Alignment (top 3 source issues per topic)
+    issue_rows = []
+    for topic_id in sorted_topics:
+        group = df_with_topics[df_with_topics["topic_id"] == topic_id]
+        topic_total = len(group)
+        top_issues = group["issue"].value_counts().head(3)
+        for issue_name, count in top_issues.items():
+            pct = round((count / topic_total) * 100, 2)
+            issue_rows.append({
+                "topic_id": topic_id,
+                "issue": issue_name,
+                "complaint_count": int(count),
+                "percentage_within_topic": pct,
+            })
+    df_issue_align = pd.DataFrame(issue_rows)
+    df_issue_align.to_csv(tables_dir / "topic_issue_alignment.csv", index=False)
 
 
 def generate_topic_visualizations(df_with_topics: pd.DataFrame, figures_dir: Path) -> None:
@@ -284,10 +336,15 @@ def generate_topic_visualizations(df_with_topics: pd.DataFrame, figures_dir: Pat
     total_assigned = len(df_with_topics)
 
     # 1. Topic Distribution Bar Chart
-    dist_counts = df_with_topics["topic_id"].value_counts().sort_index(ascending=False)
+    dist_counts = df_with_topics["topic_id"].value_counts()
+    sorted_topics = _sort_topic_ids(list(dist_counts.index))
+    # Invert so topic_01 is at the top of the horizontal bar chart
+    plot_topics = list(reversed(sorted_topics))
+    plot_counts = [dist_counts[t] for t in plot_topics]
+
     fig, ax = plt.subplots(figsize=(10, 7))
-    bars = ax.barh(dist_counts.index, dist_counts.values, color="#1f77b4", edgecolor="none")
-    ax.set_title("Complaint Count by Candidate Topic (16 Candidate NMF Topics)", fontsize=13, pad=12, fontweight="bold")
+    bars = ax.barh(plot_topics, plot_counts, color="#1f77b4", edgecolor="none")
+    ax.set_title("Complaint Count by Candidate Topic", fontsize=13, pad=12, fontweight="bold")
     ax.set_xlabel("Number of Complaints", fontsize=11)
     ax.set_ylabel("Candidate Topic ID", fontsize=11)
     ax.xaxis.set_major_formatter("{x:,.0f}")
@@ -298,7 +355,7 @@ def generate_topic_visualizations(df_with_topics: pd.DataFrame, figures_dir: Pat
         pct = w / total_assigned * 100
         ax.text(w + 300, bar.get_y() + bar.get_height() / 2, f"{w:,.0f} ({pct:.1f}%)", va="center", fontsize=9)
 
-    ax.set_xlim(0, dist_counts.max() * 1.18)
+    ax.set_xlim(0, max(plot_counts) * 1.18)
     plt.tight_layout()
     plt.savefig(figures_dir / "topic_distribution.png", dpi=300, bbox_inches="tight")
     plt.close()
@@ -309,6 +366,9 @@ def generate_topic_visualizations(df_with_topics: pd.DataFrame, figures_dir: Pat
         df_with_topics["topic_id"],
         normalize="index"
     ) * 100
+
+    heatmap_cols = _sort_topic_ids([c for c in pivot_pct.columns])
+    pivot_pct = pivot_pct.reindex(columns=heatmap_cols)
 
     fig, ax = plt.subplots(figsize=(13, 7))
     im = ax.imshow(pivot_pct.values, cmap="YlGnBu", aspect="auto")
@@ -322,7 +382,6 @@ def generate_topic_visualizations(df_with_topics: pd.DataFrame, figures_dir: Pat
     ax.set_xlabel("Candidate Topic ID", fontsize=11)
     ax.set_ylabel("Product Category", fontsize=11)
 
-    # Add numeric text labels on cells
     for i in range(pivot_pct.shape[0]):
         for j in range(pivot_pct.shape[1]):
             val = pivot_pct.iloc[i, j]
@@ -377,6 +436,10 @@ def run_text_analysis(
 
     print("Assigning topics to all complaints...")
     df_with_topics = assign_topics(df, tfidf, nmf, text_col="cleaned_narrative")
+
+    unassigned_count = int((df_with_topics["topic_id"] == "unassigned").sum())
+    assigned_count = len(df_with_topics) - unassigned_count
+    print(f"Topic assignment summary: {assigned_count:,} assigned, {unassigned_count:,} unassigned.")
 
     print(f"Saving complaints with topic assignments to {output_file}...")
     output_file.parent.mkdir(parents=True, exist_ok=True)

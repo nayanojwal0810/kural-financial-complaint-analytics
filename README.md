@@ -20,6 +20,13 @@ The dataset used in this project is sourced from the historical CFPB complaints 
 - URL: https://github.com/EmilHvitfeldt/smltar/blob/master/data/complaints.csv.gz
 - Format: Gzip-compressed CSV containing 117,214 consumer complaint records from 2019 to early 2020.
 
+## Methodology Reference
+
+KURAL references established complaint modeling approaches from:
+- Reference: https://github.com/ej770/consumer-complaint-intelligence
+
+KURAL applies established TF-IDF and NMF topic-modeling methods and develops its own analytics workflow tailored to this project's exploratory, statistical, and operational requirements.
+
 ## Project Workflow
 
 1. **Data Ingestion & Storage:** Raw compressed complaint records stored in `data/raw/` (ignored by Git for data privacy and repository hygiene).
@@ -36,9 +43,9 @@ The dataset used in this project is sourced from the historical CFPB complaints 
 - **Data Preparation Pipeline:** Implemented `src/prepare_data.py` to clean and standardize 117,214 records, engineer text and temporal features, and output `data/processed/complaints_clean.csv.gz`.
 - **Exploratory Data Analysis Notebook:** Created and executed `notebooks/exploratory_analysis.ipynb` covering dataset overview, distribution by product/company/issue, response patterns, and narrative word counts.
 - **Statistical Analysis Notebook:** Created and executed `notebooks/statistical_analysis.ipynb` evaluating response timeliness, recorded relief proportions, and narrative word counts across product categories.
-- **Complaint Theme Discovery Pipeline:** Implemented `src/text_analysis.py` with text preprocessing (removing CFPB redaction tokens, normalizing whitespace while preserving financial terms), TF-IDF vectorization, NMF decomposition into 16 candidate topics, and dataset export to `data/processed/complaints_with_topics.csv.gz`.
-- **Text Analysis Notebook:** Created and executed `notebooks/text_analysis.ipynb` examining candidate topic keywords, topic distributions, product heatmaps, and recorded relief patterns.
-- **Project Tests:** Added automated unit tests in `tests/` covering data preparation, statistical calculations, and NLP text processing and topic modeling (`pytest`).
+- **Complaint Theme Discovery Pipeline:** Implemented `src/text_analysis.py` with text preprocessing (removing CFPB redactions, amount placeholders, and standalone zero-only tokens while preserving financial terminology and numeric quantities), TF-IDF vectorization, NMF decomposition into 16 candidate topics with explicit `unassigned` handling for empty or out-of-vocabulary texts, and dataset export to `data/processed/complaints_with_topics.csv.gz`.
+- **Text Analysis Notebook:** Created and executed `notebooks/text_analysis.ipynb` examining candidate topic keywords, complaint volume distributions, product heatmaps, recorded relief patterns, and issue category alignment (with complaint narrative excerpts omitted for privacy).
+- **Project Tests:** Added automated unit tests in `tests/` covering data preparation, statistical calculations, and NLP text processing, zero-placeholder removal, and topic assignment reconciliation (`pytest`).
 - **Analytical Tables:** Exported aggregated CSV tables to `outputs/tables/`:
   - `complaints_by_product.csv`
   - `monthly_complaints.csv`
@@ -51,6 +58,7 @@ The dataset used in this project is sourced from the historical CFPB complaints 
   - `topic_distribution.csv`
   - `topic_by_product.csv`
   - `topic_recorded_relief.csv`
+  - `topic_issue_alignment.csv`
 - **Visualizations:** Saved analytical charts to `outputs/figures/`:
   - `complaints_by_product.png`
   - `monthly_complaint_volume.png`

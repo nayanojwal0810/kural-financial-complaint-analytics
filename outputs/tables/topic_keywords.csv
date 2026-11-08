@@ -1,17 +1,17 @@
 topic_id,top_keywords,complaint_count
-topic_01,"told, called, said, received, did, asked, sent, service, email, letter, customer, spoke",6824
-topic_02,"report, credit report, credit, removed, remove, account, items, experian, equifax, removed credit, account credit, showing",9560
-topic_03,"past, 00 past, balance 00, 00 balance, balance, impossible late, impossible, 00, harming, mind impossible, harming credit, days past",1038
-topic_04,"card, credit card, credit, cards, charges, charge, score, capital, balance, 00, credit score, limit",8119
-topic_05,"loan, mortgage, payments, loans, payment, 00, pay, paid, student, home, month, years",16570
-topic_06,"theft, identity, identity theft, victim, victim identity, fraudulent, theft report, police, block, result, police report, result identity",5456
-topic_07,"phone, number, calls, calling, times, phone number, stop, security, social, phone calls, social security, day",5484
-topic_08,"debt, collection, company, agency, collection agency, collect, owe, debt collection, original, creditor, validation, owed",12933
-topic_09,"late, payment, payments, late payment, days late, 30, days, 30 days, late payments, error, payment credit, reported",6380
-topic_10,"inquiry, inquiries, hard, hard inquiry, unauthorized, inquiry credit, hard inquiries, authorize, credit, did authorize, inquiries credit, inquiry inquiry",5647
-topic_11,"information, reporting, credit reporting, fcra, bureaus, inaccurate, dispute, verified, letter, credit bureaus, violation, sent",12772
-topic_12,"original, consumer contract, contract, verifiable proof, verifiable, accounts listed, verify, 609, section 609, proof, listed, consumer",1379
-topic_13,"account, bank, 00, checking, money, closed, funds, bank america, america, checking account, check, opened",11267
-topic_14,"wells, fargo, wells fargo, fargo bank, mortgage, account wells, called wells, fargo account, home, contacted wells, wf, foreclosure",2320
-topic_15,"score, credit score, reporting, attached credit, harming credit, harming, account number, contacted bureaus, incorrectly, authorized user, removed, score line",2157
-topic_16,"accounts, accounts credit, belong, fraudulent, credit file, fraudulent accounts, file, opened, removed, following accounts, following, credit",9308
+topic_01,"told, called, said, did, asked, received, service, email, sent, customer, spoke, time",7291
+topic_02,"report, credit report, credit, removed, remove, accounts, removed credit, items, account, experian, equifax, belong",11723
+topic_03,"reporting, harming, harming credit, attached credit, incorrectly, past, partial account, incorrect reporting, reporting incorrectly, partial, attached, account number",2141
+topic_04,"account, bank, closed, checking, bank america, america, funds, checking account, money, check, opened, deposit",9244
+topic_05,"loan, loans, student, payments, navient, student loan, student loans, years, school, pay, repayment, payment",7468
+topic_06,"theft, identity, identity theft, victim, victim identity, fraudulent, accounts, police, fraud, police report, ftc, opened",5369
+topic_07,"number, phone, calls, calling, times, phone number, security, stop, social, social security, phone calls, address",5776
+topic_08,"debt, collection, company, agency, collection agency, collect, owe, debt collection, original, creditor, validation, owed",12491
+topic_09,"late, payment, payments, late payment, days late, 30, days, 30 days, late payments, reported, error, month",7110
+topic_10,"card, credit card, credit, charges, cards, charge, score, balance, capital, charged, credit score, limit",9343
+topic_11,"mortgage, loan, home, escrow, property, modification, insurance, payment, company, foreclosure, mortgage company, paid",8754
+topic_12,"accounts, original, consumer contract, contract, verifiable proof, verifiable, accounts listed, verify, listed, original creditor, creditor, unverified",2586
+topic_13,"consumer reporting, consumer, reporting agency, block, shall, agency, section, subsection, reseller, subsection section, blocked, file consumer",1044
+topic_14,"wells, fargo, wells fargo, fargo bank, account wells, called wells, fargo account, contacted wells, wf, fargo credit, money, branch",2303
+topic_15,"inquiry, inquiries, hard, hard inquiry, unauthorized, inquiry credit, hard inquiries, authorize, credit, did authorize, inquiries credit, inquiry inquiry",6404
+topic_16,"information, reporting, credit reporting, bureaus, dispute, fcra, inaccurate, verified, letter, credit bureaus, sent, credit",18088
