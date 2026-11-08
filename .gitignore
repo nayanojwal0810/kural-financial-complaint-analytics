@@ -1,0 +1,53 @@
+# Raw and processed datasets (never commit raw or processed complaint-level data)
+data/raw/
+data/processed/
+*.csv.gz
+
+# Ignore top-level or data CSV files, but track aggregated analytical tables in outputs/tables/
+*.csv
+!outputs/tables/*.csv
+
+# Internal project instructions and blueprints
+KURAL_End_to_End_Project_Blueprint.txt
+*.blueprint.txt
+*.log
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

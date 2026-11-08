@@ -1,0 +1,14 @@
+year_month,complaint_count,is_partial_month,notes
+2019-01,8533,False,Full month
+2019-02,9618,False,Full month
+2019-03,10370,False,Full month
+2019-04,10095,False,Full month
+2019-05,10475,False,Full month
+2019-06,10615,False,Full month
+2019-07,11174,False,Full month
+2019-08,12066,False,Full month
+2019-09,10351,False,Full month
+2019-10,11697,False,Full month
+2019-11,7545,False,Full month
+2019-12,4140,False,Full month
+2020-01,535,True,"Partial month (Jan 1 - Jan 9, 2020)"
